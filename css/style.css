@@ -1,0 +1,73 @@
+/* Custom styles for TechMarket */
+
+/* Add some padding to the body when using fixed navbar */
+body {
+    padding-top: 20px;
+}
+
+/* Product card improvements */
+.card {
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Improve footer spacing */
+footer {
+    margin-top: 50px;
+}
+
+/* Style improvements for forms */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Button hover effects */
+.btn {
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Category sidebar improvements */
+.list-group-item {
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Cart quantity input */
+input[type="number"] {
+    max-width: 80px;
+}
+
+/* Product image in cart */
+.cart-item-image {
+    max-width: 50px;
+    height: auto;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 150px;
+    }
+    
+    .jumbotron {
+        padding: 2rem 1rem;
+    }
+} 

@@ -67,7 +67,4 @@ require_once 'includes/functions.php';
                 <?php echo $flash['message']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        <?php endif; ?>
-</body>
-</html>
-?> 
+<?php endif; ?>

@@ -25,6 +25,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all flash messages
+    const flashMessages = document.querySelectorAll('.alert');
+    
+    // Auto hide each flash message after 3 seconds
+    flashMessages.forEach(function(message) {
+        setTimeout(function() {
+            // Add fade out effect
+            message.style.transition = 'opacity 0.5s ease-in-out';
+            message.style.opacity = '0';
+            
+            // Remove the element after fade out
+            setTimeout(function() {
+                message.remove();
+            }, 500);
+        }, 3000);
+    });
+});
+</script>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
@@ -36,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="POST" action="">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <input type="text" class="form-control" id="username" name="username" required
+                               value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
@@ -52,4 +73,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<?php require_once 'includes/footer.php'; ?> 
+<?php 
+require_once 'includes/footer.php'; 

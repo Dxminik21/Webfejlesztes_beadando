@@ -11,6 +11,26 @@ require_once 'includes/functions.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all flash messages
+        const flashMessages = document.querySelectorAll('.alert');
+        
+        // Auto hide each flash message after 3 seconds
+        flashMessages.forEach(function(message) {
+            setTimeout(function() {
+                // Add fade out effect
+                message.style.transition = 'opacity 0.5s ease-in-out';
+                message.style.opacity = '0';
+                
+                // Remove the element after fade out
+                setTimeout(function() {
+                    message.remove();
+                }, 500);
+            }, 3000);
+        });
+    });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -67,4 +87,4 @@ require_once 'includes/functions.php';
                 <?php echo $flash['message']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-<?php endif; ?>
+        <?php endif; ?>

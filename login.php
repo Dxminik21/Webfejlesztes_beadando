@@ -17,34 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
-        
-        setFlashMessage('success', 'Welcome back, ' . $user['username'] . '!');
         redirect('index.php');
     } else {
         setFlashMessage('danger', 'Invalid username or password');
     }
 }
-?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all flash messages
-    const flashMessages = document.querySelectorAll('.alert');
-    
-    // Auto hide each flash message after 3 seconds
-    flashMessages.forEach(function(message) {
-        setTimeout(function() {
-            // Add fade out effect
-            message.style.transition = 'opacity 0.5s ease-in-out';
-            message.style.opacity = '0';
-            
-            // Remove the element after fade out
-            setTimeout(function() {
-                message.remove();
-            }, 500);
-        }, 3000);
-    });
-});
-</script>
+
+// Display any flash messages
+$flash = getFlashMessage();
+if ($flash): ?>
+    <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
+        <?php echo $flash['message']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 
 <div class="row justify-content-center">
     <div class="col-md-6">

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($success) {
             setFlashMessage('success', 'Email updated successfully');
-            redirect('profile.php');
+            redirect('profile.php#settings');
         } else {
             setFlashMessage('danger', 'Failed to update email');
         }
@@ -43,9 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="margin-top: -1rem;">
     <div class="col-md-6">
-        <div class="card">
+        <!-- Dedicated space for error messages -->
+        <div style="min-height: 60px;">
+            <?php
+            $flash = getFlashMessage();
+            if ($flash): ?>
+                <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
+                    <?php echo $flash['message']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div id="settings" class="card" style="margin-top: 10px;">
             <div class="card-header">
                 <h4 class="mb-0">Profile Settings</h4>
             </div>
@@ -55,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div><?php echo htmlspecialchars($user['username']); ?></div>
                 </div>
                 
-                <form method="POST" action="" class="mb-3">
+                <form method="POST" action="#settings" class="mb-3">
                     <div class="mb-3">
                         <label class="fw-bold">Email:</label>
                         <div class="input-group">
@@ -74,4 +86,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<?php require_once 'includes/footer.php'; ?> 
+<?php 
+require_once 'includes/footer.php'; ?> 

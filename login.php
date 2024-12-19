@@ -22,19 +22,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setFlashMessage('danger', 'Invalid username or password');
     }
 }
+?>
 
-// Display any flash messages
-$flash = getFlashMessage();
-if ($flash): ?>
-    <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
-        <?php echo $flash['message']; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-<?php endif; ?>
-
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="margin-top: -1rem;">
     <div class="col-md-6">
-        <div class="card">
+        <!-- Dedicated space for error messages -->
+        <div style="min-height: 60px;">
+            <?php
+            $flash = getFlashMessage();
+            if ($flash): ?>
+                <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
+                    <?php echo $flash['message']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="card" style="margin-top: 10px;">
             <div class="card-header">
                 <h4 class="mb-0">Login</h4>
             </div>

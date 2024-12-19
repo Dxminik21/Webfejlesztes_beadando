@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($success) {
             setFlashMessage('success', 'Password updated successfully');
-            redirect('profile.php');
+            redirect('profile.php#settings');
         } else {
             setFlashMessage('danger', 'Failed to update password');
         }
@@ -50,9 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center" style="margin-top: -1rem;">
     <div class="col-md-6">
-        <div class="card">
+        <!-- Dedicated space for error messages -->
+        <div style="min-height: 60px; display: flex; align-items: center;">
+            <?php
+            $flash = getFlashMessage();
+            if ($flash): ?>
+                <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show w-100 mb-0">
+                    <?php echo $flash['message']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="card" style="margin-top: 10px;">
             <div class="card-header">
                 <h4 class="mb-0">Change Password</h4>
             </div>
@@ -84,4 +96,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<?php require_once 'includes/footer.php'; ?> 
+<?php 
+require_once 'includes/footer.php'; ?> 

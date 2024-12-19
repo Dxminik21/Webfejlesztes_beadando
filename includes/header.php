@@ -11,6 +11,25 @@ require_once 'includes/functions.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            margin-bottom: 160px; /* Height of footer plus some spacing */
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            min-height: 140px; /* Reduced footer height */
+            background-color: #212529;
+        }
+        .content-wrapper {
+            padding-bottom: 2rem;
+        }
+    </style>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Get all flash messages
@@ -79,12 +98,13 @@ require_once 'includes/functions.php';
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <?php
-        $flash = getFlashMessage();
-        if ($flash): ?>
-            <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
-                <?php echo $flash['message']; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
+    <div class="content-wrapper">
+        <div class="container mt-4">
+            <?php
+            $flash = getFlashMessage();
+            if ($flash): ?>
+                <div class="alert alert-<?php echo $flash['type']; ?> alert-dismissible fade show">
+                    <?php echo $flash['message']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>

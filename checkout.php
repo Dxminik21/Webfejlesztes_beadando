@@ -74,8 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Clear cart
             $_SESSION['cart'] = [];
             
-            setFlashMessage('success', 'Order placed successfully! Thank you for your purchase.');
-            redirect('profile.php');
+            // Set order completion flag for modal
+            $_SESSION['order_completed'] = true;
+            redirect('index.php');
             
         } catch (Exception $e) {
             $conn->rollBack();

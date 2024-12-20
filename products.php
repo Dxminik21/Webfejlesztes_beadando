@@ -135,8 +135,9 @@ $products = $stmt->fetchAll();
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                             <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
-                            <p class="card-text">
+                            <p class="card-text d-flex justify-content-between align-items-center">
                                 <strong>Price: $<?php echo number_format($product['price'], 2); ?></strong>
+                                <span class="text-muted">Stock: <?php echo $product['stock']; ?></span>
                             </p>
                             <?php if ($product['stock'] > 0): ?>
                                 <form action="cart.php" method="POST">

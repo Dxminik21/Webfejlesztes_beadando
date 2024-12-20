@@ -43,11 +43,15 @@ footer {
 
 /* Category sidebar improvements */
 .list-group-item {
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 }
 
-.list-group-item:hover {
-    background-color: #f8f9fa;
+/* Custom active state without hover effects */
+.category-active {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #212529 !important;
+    pointer-events: none;
 }
 
 /* Cart quantity input */

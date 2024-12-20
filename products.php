@@ -53,17 +53,31 @@ $products = $stmt->fetchAll();
         <form class="d-flex" method="GET">
             <input type="text" name="search" class="form-control me-2" placeholder="Search products..." 
                    value="<?php echo htmlspecialchars($search); ?>">
+            <?php if (!empty($category)): ?>
+                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+            <?php endif; ?>
+            <?php if (!empty($sort)): ?>
+                <input type="hidden" name="sort" value="<?php echo htmlspecialchars($sort); ?>">
+            <?php endif; ?>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
     <div class="col-md-4">
         <div class="d-flex justify-content-end">
-            <select class="form-select w-auto" name="sort" onchange="this.form.submit()">
-                <option value="name_asc" <?php echo $sort === 'name_asc' ? 'selected' : ''; ?>>Name (A-Z)</option>
-                <option value="name_desc" <?php echo $sort === 'name_desc' ? 'selected' : ''; ?>>Name (Z-A)</option>
-                <option value="price_asc" <?php echo $sort === 'price_asc' ? 'selected' : ''; ?>>Price (Low to High)</option>
-                <option value="price_desc" <?php echo $sort === 'price_desc' ? 'selected' : ''; ?>>Price (High to Low)</option>
-            </select>
+            <form method="GET">
+                <?php if (!empty($search)): ?>
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                <?php endif; ?>
+                <?php if (!empty($category)): ?>
+                    <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+                <?php endif; ?>
+                <select class="form-select w-auto" name="sort" onchange="this.form.submit()">
+                    <option value="name_asc" <?php echo $sort === 'name_asc' ? 'selected' : ''; ?>>Name (A-Z)</option>
+                    <option value="name_desc" <?php echo $sort === 'name_desc' ? 'selected' : ''; ?>>Name (Z-A)</option>
+                    <option value="price_asc" <?php echo $sort === 'price_asc' ? 'selected' : ''; ?>>Price (Low to High)</option>
+                    <option value="price_desc" <?php echo $sort === 'price_desc' ? 'selected' : ''; ?>>Price (High to Low)</option>
+                </select>
+            </form>
         </div>
     </div>
 </div>
@@ -76,12 +90,12 @@ $products = $stmt->fetchAll();
             </div>
             <div class="card-body">
                 <div class="list-group">
-                    <a href="products.php" class="list-group-item list-group-item-action <?php echo empty($category) ? 'active' : ''; ?>">
+                    <a href="products.php" class="list-group-item list-group-item-action <?php echo empty($category) ? 'category-active' : ''; ?>">
                         All Categories
                     </a>
                     <?php foreach ($categories as $cat): ?>
-                        <a href="?category=<?php echo urlencode($cat); ?>" 
-                           class="list-group-item list-group-item-action <?php echo $category === $cat ? 'active' : ''; ?>">
+                        <a href="products.php?category=<?php echo urlencode($cat); ?>" 
+                           class="list-group-item list-group-item-action <?php echo ($category == $cat) ? 'category-active' : ''; ?>">
                             <?php echo htmlspecialchars($cat); ?>
                         </a>
                     <?php endforeach; ?>

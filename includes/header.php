@@ -61,9 +61,6 @@ require_once 'includes/functions.php';
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="products.php">Products</a>
                     </li>
                     <?php if (isAdmin()): ?>

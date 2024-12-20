@@ -6,20 +6,30 @@ $category = isset($_GET['category']) ? sanitize($_GET['category']) : '';
 $search = isset($_GET['search']) ? sanitize($_GET['search']) : '';
 $sort = isset($_GET['sort']) ? sanitize($_GET['sort']) : 'name_asc';
 
+// Pagination settings
+$items_per_page = 9;
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($current_page - 1) * $items_per_page;
+
 // Build the base query
 $query = "SELECT * FROM products WHERE 1=1";
+$count_query = "SELECT COUNT(*) FROM products WHERE 1=1";
 $params = [];
 
 // Add search filter
 if (!empty($search)) {
-    $query .= " AND (name LIKE ? OR description LIKE ?)";
+    $search_condition = " AND (name LIKE ? OR description LIKE ?)";
+    $query .= $search_condition;
+    $count_query .= $search_condition;
     $params[] = "%$search%";
     $params[] = "%$search%";
 }
 
 // Add category filter
 if (!empty($category)) {
-    $query .= " AND category = ?";
+    $category_condition = " AND category = ?";
+    $query .= $category_condition;
+    $count_query .= $category_condition;
     $params[] = $category;
 }
 
@@ -37,6 +47,15 @@ switch ($sort) {
     default:
         $query .= " ORDER BY name ASC";
 }
+
+// Add pagination (using LIMIT with comma syntax)
+$query .= sprintf(" LIMIT %d, %d", $offset, $items_per_page);
+
+// Get total number of products for pagination
+$stmt = $conn->prepare($count_query);
+$stmt->execute(array_slice($params, 0, count($params))); // Execute with all params except LIMIT
+$total_items = $stmt->fetchColumn();
+$total_pages = ceil($total_items / $items_per_page);
 
 // Get categories for filter
 $stmt = $conn->query("SELECT DISTINCT category FROM products ORDER BY category");
@@ -136,6 +155,44 @@ $products = $stmt->fetchAll();
         <?php if (empty($products)): ?>
             <div class="alert alert-info">
                 No products found matching your criteria.
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($total_pages > 1): ?>
+            <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Product pagination">
+                    <ul class="pagination">
+                        <?php if ($current_page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?<?php 
+                                    $params = $_GET;
+                                    $params['page'] = $current_page - 1;
+                                    echo http_build_query($params);
+                                ?>">&laquo; Previous</a>
+                            </li>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                            <li class="page-item <?php echo $i === $current_page ? 'active' : ''; ?>">
+                                <a class="page-link" href="?<?php 
+                                    $params = $_GET;
+                                    $params['page'] = $i;
+                                    echo http_build_query($params);
+                                ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        
+                        <?php if ($current_page < $total_pages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?<?php 
+                                    $params = $_GET;
+                                    $params['page'] = $current_page + 1;
+                                    echo http_build_query($params);
+                                ?>">Next &raquo;</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         <?php endif; ?>
     </div>

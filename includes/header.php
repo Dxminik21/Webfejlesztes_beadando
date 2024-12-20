@@ -17,32 +17,26 @@ require_once 'includes/functions.php';
             min-height: 100%;
         }
         body {
-            margin-bottom: 160px; /* Height of footer plus some spacing */
-        }
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            min-height: 140px; /* Reduced footer height */
-            background-color: #212529;
+            min-height: 100vh;
         }
         .content-wrapper {
-            padding-bottom: 2rem;
+            min-height: calc(100vh + 50px); /* Reduced extra height to 50px */
+            padding-bottom: 140px; /* Footer height */
+        }
+        footer {
+            background-color: #212529;
+            min-height: 140px;
+            width: 100%;
         }
     </style>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get all flash messages
+        // Flash message handling
         const flashMessages = document.querySelectorAll('.alert');
-        
-        // Auto hide each flash message after 3 seconds
         flashMessages.forEach(function(message) {
             setTimeout(function() {
-                // Add fade out effect
                 message.style.transition = 'opacity 0.5s ease-in-out';
                 message.style.opacity = '0';
-                
-                // Remove the element after fade out
                 setTimeout(function() {
                     message.remove();
                 }, 500);

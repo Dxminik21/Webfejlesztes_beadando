@@ -1,8 +1,15 @@
 <?php
 require_once 'includes/header.php';
 
-// Get featured products (latest 6 products)
-$stmt = $conn->query("SELECT * FROM products ORDER BY created_at DESC LIMIT 6");
+// Get featured products (popular products based on market trends)
+$stmt = $conn->query("SELECT * FROM products WHERE name IN (
+    'iPhone 13',
+    'PlayStation 5',
+    'AirPods Pro',
+    'MacBook Air M2',
+    'Samsung Galaxy S21',
+    'Nintendo Switch OLED'
+) ORDER BY name ASC");
 $featured_products = $stmt->fetchAll();
 ?>
 

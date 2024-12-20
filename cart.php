@@ -37,26 +37,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     }
 }
 
+// Handle remove item
+if (isset($_POST['remove_item'])) {
+    $product_id = (int)$_POST['remove_item'];
+    if (isset($_SESSION['cart'][$product_id])) {
+        unset($_SESSION['cart'][$product_id]);
+        setFlashMessage('success', 'Item removed from cart');
+    }
+    redirect('cart.php');
+}
+
 // Handle update quantity
 if (isset($_POST['update_cart'])) {
-    foreach ($_POST['quantity'] as $product_id => $quantity) {
-        $product_id = (int)$product_id;
-        $quantity = (int)$quantity;
-        
-        if ($quantity <= 0) {
-            unset($_SESSION['cart'][$product_id]);
-        } else {
-            // Verify stock availability
-            $stmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
-            $stmt->execute([$product_id]);
-            $product = $stmt->fetch();
+    if (isset($_POST['quantity'])) {
+        foreach ($_POST['quantity'] as $product_id => $quantity) {
+            $product_id = (int)$product_id;
+            $quantity = (int)$quantity;
             
-            if ($product && $quantity <= $product['stock']) {
-                $_SESSION['cart'][$product_id] = $quantity;
+            if ($quantity <= 0) {
+                unset($_SESSION['cart'][$product_id]);
+            } else {
+                // Verify stock availability
+                $stmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
+                $stmt->execute([$product_id]);
+                $product = $stmt->fetch();
+                
+                if ($product && $quantity <= $product['stock']) {
+                    $_SESSION['cart'][$product_id] = $quantity;
+                }
             }
         }
+        setFlashMessage('success', 'Cart updated successfully');
     }
-    setFlashMessage('success', 'Cart updated successfully');
     redirect('cart.php');
 }
 
@@ -121,13 +133,15 @@ if (!empty($_SESSION['cart'])) {
                             <td>$<?php echo number_format($item['product']['price'], 2); ?></td>
                             <td>
                                 <input type="number" name="quantity[<?php echo $item['product']['id']; ?>]" 
-                                       value="<?php echo $item['quantity']; ?>" min="0" max="<?php echo $item['product']['stock']; ?>" 
+                                       id="qty_<?php echo $item['product']['id']; ?>"
+                                       value="<?php echo $item['quantity']; ?>" 
+                                       min="0" max="<?php echo $item['product']['stock']; ?>" 
                                        class="form-control" style="width: 80px;">
                             </td>
                             <td>$<?php echo number_format($item['subtotal'], 2); ?></td>
                             <td>
-                                <button type="submit" name="quantity[<?php echo $item['product']['id']; ?>]" 
-                                        value="0" class="btn btn-danger btn-sm">
+                                <button type="submit" name="remove_item" value="<?php echo $item['product']['id']; ?>" 
+                                        class="btn btn-danger btn-sm">
                                     Remove
                                 </button>
                             </td>

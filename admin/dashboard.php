@@ -45,6 +45,7 @@ $products = $stmt->fetchAll();
     <h2>Product Management</h2>
     <div>
         <a href="users.php" class="btn btn-success me-2">Manage Users</a>
+        <a href="orders.php" class="btn btn-secondary me-2">Orders</a>
         <a href="add_product.php" class="btn btn-primary">Add New Product</a>
     </div>
 </div>

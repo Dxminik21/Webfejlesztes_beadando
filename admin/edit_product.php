@@ -4,7 +4,7 @@ requireAdmin();
 
 if (!isset($_GET['id'])) {
     setFlashMessage('danger', 'No product ID specified');
-    redirect('admin/dashboard.php');
+    redirect('../admin/dashboard.php');
 }
 
 $product_id = (int)$_GET['id'];
@@ -14,7 +14,7 @@ $product = $stmt->fetch();
 
 if (!$product) {
     setFlashMessage('danger', 'Product not found');
-    redirect('admin/dashboard.php');
+    redirect('../admin/dashboard.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,10 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($price <= 0) {
         $errors[] = "Price must be greater than 0";
-    }
-    
-    if ($stock < 0) {
-        $errors[] = "Stock cannot be negative";
     }
     
     // Handle image upload
@@ -74,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($stmt->execute([$name, $description, $price, $category, $stock, $image_url, $product_id])) {
             setFlashMessage('success', 'Product updated successfully');
-            redirect('admin/dashboard.php');
+            redirect('../admin/dashboard.php');
         } else {
             $errors[] = "Failed to update product";
         }
@@ -126,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <div class="mb-3">
                         <label for="stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="stock" name="stock" required
+                        <input type="number" class="form-control" id="stock" name="stock" required min="0"
                                value="<?php echo htmlspecialchars($product['stock']); ?>">
                     </div>
                     

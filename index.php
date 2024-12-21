@@ -53,7 +53,7 @@ $featured_products = $stmt->fetchAll();
             <div class="col">
                 <div class="card h-100">
                     <?php if (!empty($product['image_url'])): ?>
-                        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
+                        <img src="/techmarket/<?php echo htmlspecialchars($product['image_url']); ?>" 
                              class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>">
                     <?php endif; ?>
                     <div class="card-body">

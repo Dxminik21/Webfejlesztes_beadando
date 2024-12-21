@@ -11,17 +11,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_product'])) {
     } else {
         setFlashMessage('danger', 'Failed to delete product');
     }
-    redirect('admin/dashboard.php');
+    redirect('../admin/dashboard.php');
 }
 
 // Fetch all products
-$stmt = $conn->query("SELECT * FROM products ORDER BY name");
+$stmt = $conn->query("SELECT * FROM products ORDER BY id ASC");
 $products = $stmt->fetchAll();
 ?>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this product?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    <input type="hidden" name="delete_product" id="deleteProductId">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Product Management</h2>
-    <a href="add_product.php" class="btn btn-primary">Add New Product</a>
+    <div>
+        <a href="users.php" class="btn btn-success me-2">Manage Users</a>
+        <a href="add_product.php" class="btn btn-primary">Add New Product</a>
+    </div>
 </div>
 
 <div class="card">
@@ -47,14 +72,13 @@ $products = $stmt->fetchAll();
                             <td>$<?php echo number_format($product['price'], 2); ?></td>
                             <td><?php echo $product['stock']; ?></td>
                             <td>
-                                <div class="btn-group">
+                                <div class="d-flex gap-2">
                                     <a href="edit_product.php?id=<?php echo $product['id']; ?>" 
                                        class="btn btn-sm btn-warning">Edit</a>
-                                    <form method="POST" class="d-inline" 
-                                          onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                        <input type="hidden" name="delete_product" value="<?php echo $product['id']; ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger" 
+                                            onclick="confirmDelete(<?php echo $product['id']; ?>)">
+                                        Delete
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -70,5 +94,13 @@ $products = $stmt->fetchAll();
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+function confirmDelete(productId) {
+    document.getElementById('deleteProductId').value = productId;
+    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+</script>
 
 <?php require_once '../includes/footer.php'; ?> 

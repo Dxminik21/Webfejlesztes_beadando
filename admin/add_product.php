@@ -79,6 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="row justify-content-center">
     <div class="col-md-8">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <a href="dashboard.php" class="btn btn-link p-0 text-dark" style="text-decoration: none; outline: none !important; box-shadow: none !important;">
+                <i class="bi bi-arrow-left fs-4"></i>
+            </a>
+            <h2 class="mb-0">Add New Product</h2>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">Add New Product</h4>

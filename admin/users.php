@@ -36,7 +36,12 @@ $users = $stmt->fetchAll();
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>User Management</h2>
+    <div class="d-flex align-items-center gap-3">
+        <a href="dashboard.php" class="btn btn-link p-0 text-dark" style="text-decoration: none; outline: none !important; box-shadow: none !important;">
+            <i class="bi bi-arrow-left fs-4"></i>
+        </a>
+        <h2 class="mb-0">User Management</h2>
+    </div>
 </div>
 
 <div class="card">

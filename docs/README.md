@@ -1,4 +1,4 @@
-# PHP Shopping Cart
+# Shopping Site
 
 A straightforward and secure shopping cart system built with PHP. This project provides essential e-commerce functionality including cart management and a secure checkout process.
 
